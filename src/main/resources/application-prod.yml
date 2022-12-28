@@ -1,0 +1,14 @@
+spring:
+
+wutsi:
+  client-id: tracking-manager
+  platform:
+    stream:
+      type: rabbitmq
+      rabbitmq:
+        url: ${CLOUDAMQP_URL}
+    storage:
+      type: aws
+      aws:
+        bucket: prod-wutsi-data
+
