@@ -50,7 +50,7 @@ class EventHandler(
             url = payload.url,
             page = payload.page,
             ua = payload.ua,
-            ip = payload.ip
+            ip = payload.ip,
         )
         workflow.execute(request, WorkflowContext())
     }

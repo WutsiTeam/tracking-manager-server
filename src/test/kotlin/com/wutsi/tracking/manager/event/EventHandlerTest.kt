@@ -54,7 +54,7 @@ internal class EventHandlerTest {
                     url = payload.url,
                 ),
             ),
-            any()
+            any(),
         )
     }
 
@@ -75,5 +75,4 @@ internal class EventHandlerTest {
         referer = "https://www.google.ca",
         url = "https://www.wutsi.com/read/123/this-is-nice?utm_source=email&utm_campaign=test&utm_medium=email",
     )
-
 }
