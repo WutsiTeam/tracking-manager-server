@@ -1,4 +1,4 @@
-package com.wutsi.tracking.manager.service
+package com.wutsi.tracking.manager.service.pipeline
 
 import com.wutsi.tracking.manager.entity.TrackEntity
 

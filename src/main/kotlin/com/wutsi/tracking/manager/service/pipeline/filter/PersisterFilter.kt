@@ -1,8 +1,8 @@
-package com.wutsi.tracking.manager.service.filter
+package com.wutsi.tracking.manager.service.pipeline.filter
 
 import com.wutsi.tracking.manager.dao.TrackRepository
 import com.wutsi.tracking.manager.entity.TrackEntity
-import com.wutsi.tracking.manager.service.Filter
+import com.wutsi.tracking.manager.service.pipeline.Filter
 import org.slf4j.LoggerFactory
 import java.util.Collections
 

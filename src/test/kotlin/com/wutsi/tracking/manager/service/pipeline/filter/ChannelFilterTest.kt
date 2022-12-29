@@ -1,4 +1,4 @@
-package com.wutsi.tracking.manager.service.filter
+package com.wutsi.tracking.manager.service.pipeline.filter
 
 import com.wutsi.enums.ChannelType
 import com.wutsi.tracking.manager.entity.TrackEntity

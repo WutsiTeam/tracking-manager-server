@@ -4,7 +4,7 @@ import com.nhaarman.mockitokotlin2.verify
 import com.wutsi.tracking.manager.Fixtures
 import com.wutsi.tracking.manager.dto.PushTrackResponse
 import com.wutsi.tracking.manager.entity.TrackEntity
-import com.wutsi.tracking.manager.service.Pipeline
+import com.wutsi.tracking.manager.service.pipeline.Pipeline
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean

@@ -1,4 +1,4 @@
-package com.wutsi.tracking.manager.service.filter
+package com.wutsi.tracking.manager.service.pipeline.filter
 
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor

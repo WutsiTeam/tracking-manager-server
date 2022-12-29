@@ -26,14 +26,20 @@ object Fixtures {
         url = "https://www.wutsi.com/read/123/this-is-nice?utm_source=email&utm_campaign=test&utm_medium=email",
     )
 
-    fun createTrackEntity() = TrackEntity(
-        time = 3333,
+    fun createTrackEntity(
+        time: Long = 1223,
+        bot: Boolean = false,
+        event: String? = "load",
+        productId: String? = "123",
+        page: String? = "SR",
+    ) = TrackEntity(
+        time = time,
         ua = "Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0)",
         correlationId = "123",
-        bot = false,
-        event = "pageview",
-        productId = "1234",
-        page = "SR",
+        bot = bot,
+        event = event,
+        productId = productId,
+        page = page,
         value = "yo",
         revenue = 1000,
         long = 111.0,

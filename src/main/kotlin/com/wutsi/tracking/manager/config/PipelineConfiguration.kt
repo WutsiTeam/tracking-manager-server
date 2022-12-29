@@ -1,12 +1,12 @@
 package com.wutsi.tracking.manager.config
 
 import com.wutsi.tracking.manager.dao.TrackRepository
-import com.wutsi.tracking.manager.service.Pipeline
-import com.wutsi.tracking.manager.service.filter.BotFilter
-import com.wutsi.tracking.manager.service.filter.CampaignFilter
-import com.wutsi.tracking.manager.service.filter.ChannelFilter
-import com.wutsi.tracking.manager.service.filter.DeviceTypeFilter
-import com.wutsi.tracking.manager.service.filter.PersisterFilter
+import com.wutsi.tracking.manager.service.pipeline.Pipeline
+import com.wutsi.tracking.manager.service.pipeline.filter.BotFilter
+import com.wutsi.tracking.manager.service.pipeline.filter.CampaignFilter
+import com.wutsi.tracking.manager.service.pipeline.filter.ChannelFilter
+import com.wutsi.tracking.manager.service.pipeline.filter.DeviceTypeFilter
+import com.wutsi.tracking.manager.service.pipeline.filter.PersisterFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 

@@ -3,7 +3,7 @@ package com.wutsi.tracking.manager.workflow
 import com.wutsi.tracking.manager.dto.PushTrackRequest
 import com.wutsi.tracking.manager.dto.PushTrackResponse
 import com.wutsi.tracking.manager.entity.TrackEntity
-import com.wutsi.tracking.manager.service.Pipeline
+import com.wutsi.tracking.manager.service.pipeline.Pipeline
 import com.wutsi.workflow.Workflow
 import com.wutsi.workflow.WorkflowContext
 import org.springframework.stereotype.Service
