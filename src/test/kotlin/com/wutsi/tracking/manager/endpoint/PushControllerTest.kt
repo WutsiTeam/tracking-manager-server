@@ -1,7 +1,7 @@
 package com.wutsi.tracking.manager.endpoint
 
 import com.nhaarman.mockitokotlin2.verify
-import com.wutsi.tracking.manager.dto.PushTrackRequest
+import com.wutsi.tracking.manager.Fixtures
 import com.wutsi.tracking.manager.dto.PushTrackResponse
 import com.wutsi.tracking.manager.entity.TrackEntity
 import com.wutsi.tracking.manager.service.Pipeline
@@ -28,7 +28,7 @@ public class PushControllerTest {
     @Test
     fun invoke() {
         // WHEN
-        val request = createRequest()
+        val request = Fixtures.createPushTrackRequest()
         val response = rest.postForEntity(url(), request, PushTrackResponse::class.java)
 
         // THEN
@@ -43,33 +43,16 @@ public class PushControllerTest {
                 productId = request.productId,
                 page = request.page,
                 value = request.value,
+                revenue = request.revenue,
                 long = request.long,
                 lat = request.lat,
                 ip = request.ip,
                 deviceId = request.deviceId,
                 accountId = request.accountId,
                 merchantId = request.merchantId,
-                referer = request.referer,
+                referrer = request.referrer,
                 url = request.url,
             ),
         )
     }
-
-    private fun createRequest() = PushTrackRequest(
-        time = 3333,
-        ua = "Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0)",
-        correlationId = "123",
-        event = "pageview",
-        productId = "1234",
-        page = "SR",
-        value = 100.0,
-        long = 111.0,
-        lat = 222.0,
-        ip = "1.1.2.3",
-        deviceId = "sample-device",
-        accountId = "333",
-        merchantId = "555",
-        referer = "https://www.google.ca",
-        url = "https://www.wutsi.com/read/123/this-is-nice?utm_source=email&utm_campaign=test&utm_medium=email",
-    )
 }

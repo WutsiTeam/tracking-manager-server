@@ -26,10 +26,11 @@ public class ProcessTrackWorkflow(
                 ip = request.ip,
                 lat = request.lat,
                 long = request.long,
-                referer = request.referer,
+                referrer = request.referrer,
                 page = request.page,
                 event = request.event,
                 value = request.value,
+                revenue = request.revenue,
                 url = request.url,
             ),
         )

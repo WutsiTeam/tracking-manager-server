@@ -30,15 +30,17 @@ class EventHandler(
         logger.add("payload_account_id", payload.accountId)
         logger.add("payload_merchant_id", payload.merchantId)
         logger.add("payload_product_id", payload.productId)
+        logger.add("payload_device_id", payload.deviceId)
         logger.add("payload_page", payload.page)
         logger.add("payload_event", payload.event)
         logger.add("payload_value", payload.value)
-        logger.add("payload_device_id", payload.deviceId)
+        logger.add("payload_revenue", payload.revenue)
+        logger.add("payload_referrer", payload.referrer)
 
         val request = PushTrackRequest(
             time = payload.time,
             event = payload.event,
-            referer = payload.referer,
+            referrer = payload.referrer,
             correlationId = payload.correlationId,
             merchantId = payload.merchantId,
             accountId = payload.accountId,
@@ -47,6 +49,7 @@ class EventHandler(
             lat = payload.lat,
             long = payload.long,
             value = payload.value,
+            revenue = payload.revenue,
             url = payload.url,
             page = payload.page,
             ua = payload.ua,

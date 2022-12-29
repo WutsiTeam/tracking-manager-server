@@ -5,8 +5,8 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.verify
 import com.wutsi.event.EventURN
-import com.wutsi.event.TrackEventPayload
 import com.wutsi.platform.core.stream.Event
+import com.wutsi.tracking.manager.Fixtures
 import com.wutsi.tracking.manager.dto.PushTrackRequest
 import com.wutsi.tracking.manager.workflow.ProcessTrackWorkflow
 import org.junit.jupiter.api.Test
@@ -27,7 +27,7 @@ internal class EventHandlerTest {
 
     @Test
     fun onEvent() {
-        val payload = createPayload()
+        val payload = Fixtures.createTrackEventPayload()
         val event = Event(
             type = EventURN.TRACK.urn,
             payload = mapper.writeValueAsString(payload),
@@ -50,29 +50,12 @@ internal class EventHandlerTest {
                     deviceId = payload.deviceId,
                     accountId = payload.accountId,
                     merchantId = payload.merchantId,
-                    referer = payload.referer,
+                    referrer = payload.referrer,
                     url = payload.url,
+                    revenue = payload.revenue,
                 ),
             ),
             any(),
         )
     }
-
-    private fun createPayload() = TrackEventPayload(
-        time = 3333,
-        ua = "Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0)",
-        correlationId = "123",
-        event = "pageview",
-        productId = "1234",
-        page = "SR",
-        value = 100.0,
-        long = 111.0,
-        lat = 222.0,
-        ip = "1.1.2.3",
-        deviceId = "sample-device",
-        accountId = "333",
-        merchantId = "555",
-        referer = "https://www.google.ca",
-        url = "https://www.wutsi.com/read/123/this-is-nice?utm_source=email&utm_campaign=test&utm_medium=email",
-    )
 }

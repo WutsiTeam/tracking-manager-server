@@ -40,29 +40,29 @@ internal class ChannelFilterTest {
 
     @Test
     fun whatsapp() {
-        val track = filter.filter(createTrack(referer = "https://wa.me"))
+        val track = filter.filter(createTrack(referrer = "https://wa.me"))
         assertEquals(ChannelType.MESSAGING.name, track.channel)
     }
 
     @Test
     fun social() {
-        val track = filter.filter(createTrack(referer = "https://facebook.com"))
+        val track = filter.filter(createTrack(referrer = "https://facebook.com"))
         assertEquals(ChannelType.SOCIAL.name, track.channel)
     }
 
     @Test
     fun seo() {
-        val track = filter.filter(createTrack(referer = "https://www.google.com"))
+        val track = filter.filter(createTrack(referrer = "https://www.google.com"))
         assertEquals(ChannelType.SEO.name, track.channel)
     }
 
     private fun createTrack(
         url: String? = null,
-        referer: String? = null,
+        referrer: String? = null,
         ua: String? = null,
     ) = TrackEntity(
         url = url,
-        referer = referer,
+        referrer = referrer,
         ua = ua,
     )
 }

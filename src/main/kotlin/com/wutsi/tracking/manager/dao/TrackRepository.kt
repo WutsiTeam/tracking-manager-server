@@ -60,6 +60,7 @@ class TrackRepository(
                         "page",
                         "event",
                         "value",
+                        "revenue",
                         "ip",
                         "long",
                         "lat",
@@ -68,7 +69,7 @@ class TrackRepository(
                         "channel",
                         "source",
                         "campaign",
-                        "referer",
+                        "referrer",
                         "url",
                         "ua",
                     )
@@ -86,6 +87,7 @@ class TrackRepository(
                         it.page,
                         it.event,
                         it.value,
+                        it.revenue,
                         it.ip,
                         it.long,
                         it.lat,
@@ -95,7 +97,7 @@ class TrackRepository(
                         it.source,
                         it.campaign,
                         it.url,
-                        it.referer,
+                        it.referrer,
                         it.ua,
                     )
                 }

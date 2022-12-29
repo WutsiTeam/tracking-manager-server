@@ -61,12 +61,12 @@ class ChannelFilter : Filter {
         }
 
         // Direct trafic
-        if (track.referer.isNullOrEmpty()) {
+        if (track.referrer.isNullOrEmpty()) {
             return track.copy(channel = ChannelType.UNKNOWN.name)
         }
 
         // Referer
-        val domain = extractDomainName(track.referer)
+        val domain = extractDomainName(track.referrer)
         val channel = if (EMAIL_DOMAINS.contains(domain)) {
             ChannelType.EMAIL
         } else if (SEO_DOMAINS.find { domain.startsWith(it) } != null) {
