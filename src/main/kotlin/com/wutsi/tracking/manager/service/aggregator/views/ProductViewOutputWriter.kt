@@ -9,7 +9,7 @@ class ProductViewOutputWriter(outputPath: String, storage: StorageService) :
     override fun headers(): Array<String> =
         arrayOf(
             "product_id",
-            "views",
+            "total_views",
         )
 
     override fun values(pair: KeyPair<String, Long>): Array<Any> =

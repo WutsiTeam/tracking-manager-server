@@ -42,7 +42,7 @@ internal class ProductViewOutputWriterTest {
         assertTrue(file.exists())
         assertEquals(
             """
-                product_id,views
+                product_id,total_views
                 1,11
                 2,12
                 9,99

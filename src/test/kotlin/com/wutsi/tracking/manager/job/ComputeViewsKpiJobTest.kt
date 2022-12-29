@@ -87,7 +87,7 @@ internal class ComputeViewsKpiJobTest {
         assertTrue(file.exists())
         assertEquals(
             """
-                product_id,views
+                product_id,total_views
                 111,2
                 222,1
             """.trimIndent(),
