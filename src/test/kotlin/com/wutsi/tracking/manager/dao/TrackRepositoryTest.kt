@@ -3,12 +3,17 @@ package com.wutsi.tracking.manager.dao
 import com.wutsi.enums.ChannelType
 import com.wutsi.enums.DeviceType
 import com.wutsi.platform.core.storage.StorageService
+import com.wutsi.tracking.manager.Fixtures
 import com.wutsi.tracking.manager.entity.TrackEntity
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.time.LocalDate
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class TrackRepositoryTest {
@@ -17,6 +22,14 @@ internal class TrackRepositoryTest {
 
     @Autowired
     private lateinit var storageService: StorageService
+
+    @Value("\${wutsi.platform.storage.local.directory}")
+    private lateinit var storageDirectory: String
+
+    @BeforeEach
+    fun setUp() {
+        File("$storageDirectory/${TrackRepository.PATH_PREFIX}").deleteRecursively()
+    }
 
     @Test
     fun save() {
@@ -33,6 +46,22 @@ internal class TrackRepositoryTest {
             """.trimIndent(),
             out.toString().trimIndent(),
         )
+    }
+
+    @Test
+    fun getURLs() {
+        // GIVEN
+        val date = LocalDate.of(2020, 10, 2)
+        dao.save(listOf(Fixtures.createTrackEntity()), date.plusDays(-1))
+        dao.save(listOf(Fixtures.createTrackEntity(), Fixtures.createTrackEntity()), date)
+        dao.save(listOf(Fixtures.createTrackEntity()), date)
+        dao.save(listOf(Fixtures.createTrackEntity()), date.plusDays(1))
+
+        // WHEN
+        val urls = dao.getURLs(date)
+
+        // THEN
+        assertEquals(2, urls.size)
     }
 
     private fun createTrack() = TrackEntity(

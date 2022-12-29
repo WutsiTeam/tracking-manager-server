@@ -1,6 +1,7 @@
 package com.wutsi.tracking.manager.dao
 
 import com.wutsi.platform.core.storage.StorageService
+import com.wutsi.platform.core.storage.StorageVisitor
 import com.wutsi.tracking.manager.entity.TrackEntity
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -14,18 +15,17 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.io.OutputStreamWriter
 import java.net.URL
-import java.text.SimpleDateFormat
-import java.time.Clock
-import java.util.Date
-import java.util.TimeZone
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.UUID
 
 @Service
 class TrackRepository(
     private val storage: StorageService,
-    private val clock: Clock,
 ) {
     companion object {
+        const val PATH_PREFIX = "track"
+
         private val HEADERS = arrayOf(
             "time",
             "correlation_id",
@@ -51,7 +51,7 @@ class TrackRepository(
         )
     }
 
-    fun save(items: List<TrackEntity>): URL {
+    fun save(items: List<TrackEntity>, date: LocalDate = LocalDate.now()): URL {
         val file = File.createTempFile(UUID.randomUUID().toString(), "csv")
         try {
             // Store to file
@@ -63,7 +63,7 @@ class TrackRepository(
             // Store to cloud
             val input = FileInputStream(file)
             input.use {
-                return storeToCloud(input)
+                return storeToCloud(input, date)
             }
         } finally {
             file.delete()
@@ -83,7 +83,7 @@ class TrackRepository(
         return parser.map {
             TrackEntity(
                 time = it.get("time").toLong(),
-                correlationId = it.get("correlationId"),
+                correlationId = it.get("correlation_id"),
                 deviceId = it.get("device_id"),
                 accountId = it.get("account_id"),
                 merchantId = it.get("merchant_id"),
@@ -106,6 +106,19 @@ class TrackRepository(
             )
         }.filter {
             filter == null || filter.accept(it)
+        }
+    }
+
+    fun getURLs(date: LocalDate): List<URL> {
+        val urls = mutableListOf<URL>()
+        val visitor = createVisitor(urls)
+        storage.visit(getStorageFolder(date), visitor)
+        return urls
+    }
+
+    private fun createVisitor(urls: MutableList<URL>) = object : StorageVisitor {
+        override fun visit(url: URL) {
+            urls.add(url)
         }
     }
 
@@ -150,13 +163,12 @@ class TrackRepository(
         }
     }
 
-    private fun storeToCloud(input: InputStream): URL {
-        val fmt = SimpleDateFormat("yyyy/MM/dd")
-        fmt.timeZone = TimeZone.getTimeZone("UTC")
-
-        val folder = fmt.format(Date(clock.millis()))
+    private fun storeToCloud(input: InputStream, date: LocalDate): URL {
+        val folder = getStorageFolder(date)
         val file = UUID.randomUUID().toString() + ".csv"
-        val path = "track/$folder/$file"
-        return storage.store(path, input, "text/csv", Int.MAX_VALUE)
+        return storage.store("$folder/$file", input, "text/csv", Int.MAX_VALUE)
     }
+
+    private fun getStorageFolder(date: LocalDate): String =
+        "$PATH_PREFIX/" + date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"))
 }

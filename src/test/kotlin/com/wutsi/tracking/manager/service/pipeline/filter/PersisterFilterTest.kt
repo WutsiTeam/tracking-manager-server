@@ -2,6 +2,7 @@ package com.wutsi.tracking.manager.service.pipeline.filter
 
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
@@ -9,6 +10,7 @@ import com.wutsi.tracking.manager.dao.TrackRepository
 import com.wutsi.tracking.manager.entity.TrackEntity
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.time.LocalDate
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -32,7 +34,7 @@ internal class PersisterFilterTest {
             filter.filter(createTrack(i.toString()))
         }
 
-        verify(dao, never()).save(any())
+        verify(dao, never()).save(any(), any())
         assertEquals(4, filter.size())
     }
 
@@ -52,7 +54,7 @@ internal class PersisterFilterTest {
         }
 
         val items = argumentCaptor<List<TrackEntity>>()
-        verify(dao).save(items.capture())
+        verify(dao).save(items.capture(), eq(LocalDate.now()))
 
         assertTrue(items.firstValue.contains(tracks[0]))
         assertTrue(items.firstValue.contains(tracks[1]))
@@ -66,7 +68,7 @@ internal class PersisterFilterTest {
     fun `never store empty buffer`() {
         filter.flush()
 
-        verify(dao, never()).save(any())
+        verify(dao, never()).save(any(), any())
     }
 
     private fun createTrack(correlationId: String) = TrackEntity(

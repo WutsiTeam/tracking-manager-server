@@ -41,6 +41,8 @@ wutsi:
     jobs:
       persister:
         cron: "0 0 * * * *" # every hour
+      compute-views-kpi:
+        cron: "0 5 * * * *" # every hour at *:05
   platform:
     security:
       type: none
@@ -50,7 +52,7 @@ wutsi:
     storage:
       type: local
       local:
-        directory: "${user:home}/wutsi/storage}"
+        directory: "${user.home}/wutsi/storage"
     stream:
       name: ${wutsi.application.name}
       type: local

@@ -18,6 +18,10 @@ abstract class OutputWriter<K, V>(
     abstract fun values(pair: KeyPair<K, V>): Array<Any>
 
     fun write(pairs: List<KeyPair<K, V>>) {
+        if (pairs.isEmpty()) {
+            return
+        }
+
         val file = File.createTempFile(UUID.randomUUID().toString(), ".csv")
         try {
             write(pairs, file)
