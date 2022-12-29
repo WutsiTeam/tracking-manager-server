@@ -82,7 +82,7 @@ class TrackRepository(
         )
         return parser.map {
             TrackEntity(
-                time = it.get("time").toLong(),
+                time = toLong(it.get("time")),
                 correlationId = it.get("correlation_id"),
                 deviceId = it.get("device_id"),
                 accountId = it.get("account_id"),
@@ -91,10 +91,10 @@ class TrackRepository(
                 page = it.get("page"),
                 event = it.get("event"),
                 value = it.get("value"),
-                revenue = it.get("revenue").toLong(),
+                revenue = toLong(it.get("revenue")),
                 ip = it.get("ip"),
-                lat = it.get("lat").toDouble(),
-                long = it.get("long").toDouble(),
+                lat = toDouble(it.get("lat")),
+                long = toDouble(it.get("long")),
                 bot = it.get("bot").toBoolean(),
                 deviceType = it.get("device_type"),
                 channel = it.get("channel"),
@@ -108,6 +108,20 @@ class TrackRepository(
             filter == null || filter.accept(it)
         }
     }
+
+    private fun toLong(str: String): Long =
+        try {
+            str.toLong()
+        } catch (ex: Exception) {
+            0L
+        }
+
+    private fun toDouble(str: String): Double =
+        try {
+            str.toDouble()
+        } catch (ex: Exception) {
+            0.0
+        }
 
     fun getURLs(date: LocalDate): List<URL> {
         val urls = mutableListOf<URL>()
