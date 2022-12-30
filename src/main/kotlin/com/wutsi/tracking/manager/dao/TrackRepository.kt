@@ -45,8 +45,8 @@ class TrackRepository(
             "channel",
             "source",
             "campaign",
-            "referrer",
             "url",
+            "referrer",
             "ua",
         )
     }

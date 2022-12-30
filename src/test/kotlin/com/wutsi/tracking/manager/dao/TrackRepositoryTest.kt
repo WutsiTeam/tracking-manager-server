@@ -41,7 +41,7 @@ internal class TrackRepositoryTest {
         storageService.get(url, out)
         assertEquals(
             """
-                time,correlation_id,device_id,account_id,merchant_id,product_id,page,event,value,revenue,ip,long,lat,bot,device_type,channel,source,campaign,referrer,url,ua
+                time,correlation_id,device_id,account_id,merchant_id,product_id,page,event,value,revenue,ip,long,lat,bot,device_type,channel,source,campaign,url,referrer,ua
                 3333,123,sample-device,333,555,1234,SR,pageview,yo,1000,1.1.2.3,111.0,222.0,false,DESKTOP,WEB,facebook,12434554,https://www.wutsi.com/read/123/this-is-nice?utm_source=email&utm_campaign=test&utm_medium=email,https://www.google.ca,Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0)
             """.trimIndent(),
             out.toString().trimIndent(),
