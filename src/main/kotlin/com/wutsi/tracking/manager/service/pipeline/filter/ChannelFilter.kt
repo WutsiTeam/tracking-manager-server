@@ -51,7 +51,7 @@ class ChannelFilter : Filter {
             return track.copy(channel = ChannelType.APP.name)
         }
 
-        // URL
+        // Query string
         if (!track.url.isNullOrEmpty()) {
             val channel = URLUtil.extractParams(track.url)["utm_medium"]
             if (channel != null) {
@@ -59,9 +59,23 @@ class ChannelFilter : Filter {
             }
         }
 
-        // Direct trafic
-        if (track.referrer.isNullOrEmpty()) {
-            return track.copy(channel = ChannelType.UNKNOWN.name)
+        // User Agent
+        val ua = track.ua
+        if (ua != null) {
+            if (
+                ua.contains("WhatsApp") ||
+                ua.contains("FBAN/Messenger") ||
+                ua.contains("FB_IAB/MESSENGER") ||
+                ua.contains("TelegramBot (like TwitterBot)")
+            ) {
+                return track.copy(channel = ChannelType.MESSAGING.name)
+            } else if (
+                ua.contains("Twitter") ||
+                ua.contains("TikTok") ||
+                ua.contains("FBAN/FB")
+            ) {
+                return track.copy(channel = ChannelType.SOCIAL.name)
+            }
         }
 
         // Referer
