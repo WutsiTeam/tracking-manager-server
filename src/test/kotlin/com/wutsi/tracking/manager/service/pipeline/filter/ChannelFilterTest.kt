@@ -51,6 +51,12 @@ internal class ChannelFilterTest {
     }
 
     @Test
+    fun facebook() {
+        val track = filter.filter(createTrack(referrer = "https://l.facebook.com"))
+        assertEquals(ChannelType.SOCIAL.name, track.channel)
+    }
+
+    @Test
     fun seo() {
         val track = filter.filter(createTrack(referrer = "https://www.google.com"))
         assertEquals(ChannelType.SEO.name, track.channel)

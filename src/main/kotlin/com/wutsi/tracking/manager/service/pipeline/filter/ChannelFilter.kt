@@ -20,6 +20,7 @@ class ChannelFilter : Filter {
         )
         private val SOCIAL_DOMAINS = arrayListOf(
             "facebook.com",
+            "t.co",
             "twitter.com",
             "linkedin.com",
             "pinterest.com",
@@ -36,8 +37,6 @@ class ChannelFilter : Filter {
             "telegram.me",
             "telegram.org",
             "telegram.com",
-            "telesco.pe",
-            "tg.dev",
 
             // Messenger - see https://www.netify.ai/resources/applications/messenger
             "m.me",
@@ -69,9 +68,9 @@ class ChannelFilter : Filter {
         val domain = extractDomainName(track.referrer)
         val channel = if (EMAIL_DOMAINS.contains(domain)) {
             ChannelType.EMAIL
-        } else if (SEO_DOMAINS.find { domain.startsWith(it) } != null) {
+        } else if (SEO_DOMAINS.find { domain.contains(it) } != null) {
             ChannelType.SEO
-        } else if (SOCIAL_DOMAINS.contains(domain)) {
+        } else if (SOCIAL_DOMAINS.find { domain.contains(it) } != null) {
             ChannelType.SOCIAL
         } else if (MESSAGING_DOMAINS.contains(domain)) {
             ChannelType.MESSAGING
