@@ -15,7 +15,9 @@ import java.io.File
 import java.io.FileInputStream
 import java.time.LocalDate
 import java.time.OffsetDateTime
+import java.time.ZoneId
 import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class ComputeViewsKpiJobTest {
@@ -37,7 +39,7 @@ internal class ComputeViewsKpiJobTest {
     @Test
     fun run() {
         // GIVEN
-        val today = LocalDate.now()
+        val today = LocalDate.now(ZoneId.of("UTC"))
         dao.save(
             listOf(
                 Fixtures.createTrackEntity(
@@ -83,7 +85,7 @@ internal class ComputeViewsKpiJobTest {
         job.run()
 
         // THEN
-        val file = File("$storageDir/kpi/${today.year}/${today.monthValue}/${today.dayOfMonth}/views.csv")
+        val file = File("$storageDir/kpi/" + today.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + "/views.csv")
         assertTrue(file.exists())
         assertEquals(
             """

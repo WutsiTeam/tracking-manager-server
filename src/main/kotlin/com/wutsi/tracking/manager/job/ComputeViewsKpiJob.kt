@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.net.URL
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Service
@@ -31,7 +32,7 @@ class ComputeViewsKpiJob(
     }
 
     override fun doRun(): Long {
-        val date = LocalDate.now()
+        val date = LocalDate.now(ZoneId.of("UTC"))
         Aggregator(
             dao = dao,
             inputs = createInputStreamIterator(date),
