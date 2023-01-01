@@ -2,7 +2,7 @@ name: restart_test
 
 on:
   schedule:
-    - cron: "0 9,12,18,21 * * *"   # Restart the servers at: 9AM, 12PM, 6PM and 9PM
+    - cron: "0 0,6,12,18 * * *"   # Restart the servers every 6 hours
 
 jobs:
   build:
