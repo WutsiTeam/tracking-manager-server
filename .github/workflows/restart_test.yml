@@ -1,0 +1,15 @@
+name: restart_test
+
+on:
+  schedule:
+    - cron: "0 9,12,18,21 * * *"   # Restart the servers at: 9AM, 12PM, 6PM and 9PM
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run
+        run: |
+          curl -sSf https://tracking-manager-test.herokuapp.com/actuator/health >> /dev/null
