@@ -2,11 +2,10 @@ package com.wutsi.tracking.manager.job
 
 import com.wutsi.platform.core.cron.AbstractCronJob
 import com.wutsi.platform.core.cron.CronLockManager
+import com.wutsi.platform.core.logging.KVLogger
 import com.wutsi.platform.core.storage.StorageService
 import com.wutsi.tracking.manager.dao.TrackRepository
 import com.wutsi.tracking.manager.service.aggregator.Aggregator
-import com.wutsi.tracking.manager.service.aggregator.InputStreamIterator
-import com.wutsi.tracking.manager.service.aggregator.OutputWriter
 import com.wutsi.tracking.manager.service.aggregator.StorageInputStreamIterator
 import com.wutsi.tracking.manager.service.aggregator.views.ProductViewMapper
 import com.wutsi.tracking.manager.service.aggregator.views.ProductViewOutputWriter
@@ -22,6 +21,7 @@ import java.time.format.DateTimeFormatter
 class ComputeViewsKpiJob(
     private val dao: TrackRepository,
     private val storage: StorageService,
+    private val logger: KVLogger,
     lockManager: CronLockManager,
 ) : AbstractCronJob(lockManager) {
     override fun getJobName() = "compute-views-kpi"
@@ -33,17 +33,23 @@ class ComputeViewsKpiJob(
 
     override fun doRun(): Long {
         val date = LocalDate.now(ZoneId.of("UTC"))
+        val inputs = createInputStreamIterator(date)
+        val output = createOutputWriter(date)
+
+        logger.add("date", date)
+        logger.add("input_urls", inputs.urls)
+        logger.add("output_path", output.path)
         Aggregator(
             dao = dao,
-            inputs = createInputStreamIterator(date),
+            inputs = inputs,
             mapper = ProductViewMapper(date),
             reducer = ProductViewReducer(),
-            output = createOutputWriter(date),
+            output = output,
         ).aggregate()
         return 1
     }
 
-    private fun createInputStreamIterator(date: LocalDate): InputStreamIterator {
+    private fun createInputStreamIterator(date: LocalDate): StorageInputStreamIterator {
         val urls = mutableListOf<URL>()
 
         urls.addAll(dao.getURLs(date.minusDays(1)))
@@ -52,7 +58,7 @@ class ComputeViewsKpiJob(
         return StorageInputStreamIterator(urls, storage)
     }
 
-    private fun createOutputWriter(date: LocalDate): OutputWriter<String, Long> {
+    private fun createOutputWriter(date: LocalDate): ProductViewOutputWriter {
         val path = "kpi/" + date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + "/views.csv"
         return ProductViewOutputWriter(path, storage)
     }

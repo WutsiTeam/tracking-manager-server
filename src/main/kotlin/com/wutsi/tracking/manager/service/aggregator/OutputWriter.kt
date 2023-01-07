@@ -11,8 +11,8 @@ import java.io.OutputStreamWriter
 import java.util.UUID
 
 abstract class OutputWriter<K, V>(
-    private val outputPath: String,
-    private val storage: StorageService,
+    val path: String,
+    val storage: StorageService,
 ) {
     abstract fun headers(): Array<String>
     abstract fun values(pair: KeyPair<K, V>): Array<Any>
@@ -54,7 +54,7 @@ abstract class OutputWriter<K, V>(
         // Write to cloud storage
         val input = FileInputStream(file)
         input.use {
-            storage.store(outputPath, input, "text/csv", null, "utf-8")
+            storage.store(path, input, "text/csv", null, "utf-8")
         }
     }
 }
