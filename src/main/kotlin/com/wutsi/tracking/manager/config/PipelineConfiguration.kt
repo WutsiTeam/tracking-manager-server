@@ -1,5 +1,6 @@
 package com.wutsi.tracking.manager.config
 
+import com.wutsi.enums.util.ChannelDetector
 import com.wutsi.tracking.manager.dao.TrackRepository
 import com.wutsi.tracking.manager.service.pipeline.Pipeline
 import com.wutsi.tracking.manager.service.pipeline.filter.BotFilter
@@ -20,7 +21,7 @@ class PipelineConfiguration(
             BotFilter(),
             DeviceTypeFilter(),
             CampaignFilter(),
-            ChannelFilter(),
+            ChannelFilter(ChannelDetector()),
 
             // IMPORTANT: Always the last!!!
             persisterFilter(),
