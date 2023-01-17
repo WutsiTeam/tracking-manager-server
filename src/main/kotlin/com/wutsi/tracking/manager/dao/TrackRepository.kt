@@ -105,7 +105,7 @@ class TrackRepository(
                 url = it.get("url"),
                 referrer = it.get("referrer"),
                 ua = it.get("ua"),
-                businessId = it.get("business_id"),
+                businessId = if (it.size() > 21) it.get("business_id") else null,
             )
         }.filter {
             filter == null || filter.accept(it)
