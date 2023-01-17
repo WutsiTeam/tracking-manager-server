@@ -79,6 +79,7 @@ class TrackRepository(
                 .setSkipHeaderRecord(true)
                 .setDelimiter(",")
                 .setHeader(*HEADERS)
+                .setAllowMissingColumnNames(true)
                 .build(),
         )
         return parser.map {
