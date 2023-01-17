@@ -89,9 +89,9 @@ internal class ComputeViewsKpiJobTest {
         assertTrue(file.exists())
         assertEquals(
             """
-                product_id,total_views
-                111,2
-                222,1
+                product_id,total_views,business_id
+                111,2,333
+                222,1,333
             """.trimIndent(),
             IOUtils.toString(FileInputStream(file)).trimIndent(),
         )

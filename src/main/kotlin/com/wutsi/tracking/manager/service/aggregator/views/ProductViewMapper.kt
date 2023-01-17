@@ -7,7 +7,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
 
-class ProductViewMapper(private val date: LocalDate) : Mapper<String, Long> {
+class ProductViewMapper(private val date: LocalDate) : Mapper<ProductKey, Long> {
     companion object {
         const val EVENT = "load"
         const val PAGE = "page.web.product"
@@ -20,10 +20,10 @@ class ProductViewMapper(private val date: LocalDate) : Mapper<String, Long> {
             !track.productId.isNullOrEmpty() &&
             Instant.ofEpochMilli(track.time).atZone(ZoneOffset.UTC).toLocalDate().equals(date)
 
-    override fun map(track: TrackEntity): KeyPair<String, Long>? =
+    override fun map(track: TrackEntity): KeyPair<ProductKey, Long>? =
         track.productId?.let {
             ProductView(
-                track.productId,
+                ProductKey(track.businessId ?: "-1", track.productId),
                 1,
             )
         }

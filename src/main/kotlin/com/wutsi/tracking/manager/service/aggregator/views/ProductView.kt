@@ -2,4 +2,4 @@ package com.wutsi.tracking.manager.service.aggregator.views
 
 import com.wutsi.tracking.manager.service.aggregator.KeyPair
 
-class ProductView(key: String, value: Long) : KeyPair<String, Long>(key, value)
+class ProductView(key: ProductKey, value: Long) : KeyPair<ProductKey, Long>(key, value)

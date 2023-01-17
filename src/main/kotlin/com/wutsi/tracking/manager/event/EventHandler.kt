@@ -36,6 +36,8 @@ class EventHandler(
         logger.add("payload_value", payload.value)
         logger.add("payload_revenue", payload.revenue)
         logger.add("payload_referrer", payload.referrer)
+        logger.add("payload_business_id", payload.businessId)
+        logger.add("payload_url", payload.url)
 
         val request = PushTrackRequest(
             time = payload.time,
@@ -54,6 +56,7 @@ class EventHandler(
             page = payload.page,
             ua = payload.ua,
             ip = payload.ip,
+            businessId = payload.businessId,
         )
         workflow.execute(request, WorkflowContext())
     }

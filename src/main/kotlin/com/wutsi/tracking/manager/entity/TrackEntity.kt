@@ -22,4 +22,5 @@ data class TrackEntity(
     val campaign: String? = null,
     val channel: String? = null,
     val deviceType: String? = null,
+    val businessId: String? = null,
 )

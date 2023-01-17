@@ -62,7 +62,8 @@ internal class ProductViewMapperTest {
     @Test
     fun map() {
         val result = mapper.map(track)
-        assertEquals(track.productId, result?.key)
+        assertEquals(track.productId, result?.key?.productId)
         assertEquals(1L, result?.value)
+        assertEquals(track.businessId, result?.key?.businessId)
     }
 }

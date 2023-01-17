@@ -54,6 +54,7 @@ object Fixtures {
         source = "facebook",
         channel = ChannelType.WEB.name,
         campaign = "12434554",
+        businessId = "333",
     )
 
     fun createTrackEventPayload() = TrackEventPayload(

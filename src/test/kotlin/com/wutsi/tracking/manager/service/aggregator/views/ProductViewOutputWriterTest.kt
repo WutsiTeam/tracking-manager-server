@@ -32,9 +32,9 @@ internal class ProductViewOutputWriterTest {
         val writer = ProductViewOutputWriter(path, storage)
         writer.write(
             listOf(
-                ProductView("1", 11),
-                ProductView("2", 12),
-                ProductView("9", 99),
+                ProductView(ProductKey("1", "1"), 11),
+                ProductView(ProductKey("1", "2"), 12),
+                ProductView(ProductKey("55", "9"), 99),
             ),
         )
 
@@ -42,10 +42,10 @@ internal class ProductViewOutputWriterTest {
         assertTrue(file.exists())
         assertEquals(
             """
-                product_id,total_views
-                1,11
-                2,12
-                9,99
+                product_id,total_views,business_id
+                1,11,1
+                2,12,1
+                9,99,55
             """.trimIndent(),
             IOUtils.toString(FileInputStream(file)).trimIndent(),
         )

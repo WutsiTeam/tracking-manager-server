@@ -48,6 +48,7 @@ class TrackRepository(
             "url",
             "referrer",
             "ua",
+            "business_id",
         )
     }
 
@@ -103,6 +104,7 @@ class TrackRepository(
                 url = it.get("url"),
                 referrer = it.get("referrer"),
                 ua = it.get("ua"),
+                businessId = it.get("business_id"),
             )
         }.filter {
             filter == null || filter.accept(it)
@@ -170,6 +172,7 @@ class TrackRepository(
                         it.url,
                         it.referrer,
                         it.ua,
+                        it.businessId,
                     )
                 }
                 printer.flush()
