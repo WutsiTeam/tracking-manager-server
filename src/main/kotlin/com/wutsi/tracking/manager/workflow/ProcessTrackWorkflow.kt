@@ -32,6 +32,7 @@ public class ProcessTrackWorkflow(
                 value = request.value,
                 revenue = request.revenue,
                 url = request.url,
+                businessId = request.businessId,
             ),
         )
         return PushTrackResponse(

@@ -24,6 +24,7 @@ object Fixtures {
         merchantId = "555",
         referrer = "https://www.google.ca",
         url = "https://www.wutsi.com/read/123/this-is-nice?utm_source=email&utm_campaign=test&utm_medium=email",
+        businessId = "777",
     )
 
     fun createTrackEntity(
