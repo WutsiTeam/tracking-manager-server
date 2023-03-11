@@ -1,14 +1,14 @@
 package com.wutsi.tracking.manager.event
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.verify
 import com.wutsi.event.EventURN
 import com.wutsi.platform.core.stream.Event
 import com.wutsi.tracking.manager.Fixtures
 import com.wutsi.tracking.manager.dto.PushTrackRequest
 import com.wutsi.tracking.manager.workflow.ProcessTrackWorkflow
+import com.wutsi.workflow.WorkflowContext
+import com.wutsi.workflow.engine.WorkflowEngine
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -23,7 +23,7 @@ internal class EventHandlerTest {
     private lateinit var mapper: ObjectMapper
 
     @MockBean
-    private lateinit var workflow: ProcessTrackWorkflow
+    private lateinit var workflowEngine: WorkflowEngine
 
     @Test
     fun onEvent() {
@@ -34,9 +34,10 @@ internal class EventHandlerTest {
         )
         handler.onEvent(event)
 
-        verify(workflow).execute(
-            eq(
-                PushTrackRequest(
+        verify(workflowEngine).execute(
+            ProcessTrackWorkflow.ID,
+            WorkflowContext(
+                input = PushTrackRequest(
                     time = payload.time,
                     ua = payload.ua,
                     correlationId = payload.correlationId,
@@ -55,7 +56,6 @@ internal class EventHandlerTest {
                     revenue = payload.revenue,
                 ),
             ),
-            any(),
         )
     }
 }

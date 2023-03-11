@@ -4,16 +4,30 @@ import com.wutsi.tracking.manager.dto.PushTrackRequest
 import com.wutsi.tracking.manager.dto.PushTrackResponse
 import com.wutsi.tracking.manager.entity.TrackEntity
 import com.wutsi.tracking.manager.service.pipeline.Pipeline
-import com.wutsi.workflow.Workflow
 import com.wutsi.workflow.WorkflowContext
+import com.wutsi.workflow.engine.Workflow
+import com.wutsi.workflow.engine.WorkflowEngine
+import com.wutsi.workflow.util.WorkflowIdGenerator
 import org.springframework.stereotype.Service
 import java.util.UUID
+import javax.annotation.PostConstruct
 
 @Service
 public class ProcessTrackWorkflow(
     private val pipeline: Pipeline,
-) : Workflow<PushTrackRequest, PushTrackResponse> {
-    override fun execute(request: PushTrackRequest, context: WorkflowContext): PushTrackResponse {
+    private val workflowEngine: WorkflowEngine,
+) : Workflow {
+    companion object {
+        val ID = WorkflowIdGenerator.generate("marketplace", "track")
+    }
+
+    @PostConstruct
+    fun init() {
+        workflowEngine.register(ID, this)
+    }
+
+    override fun execute(context: WorkflowContext) {
+        val request = context.input as PushTrackRequest
         pipeline.filter(
             track = TrackEntity(
                 time = request.time,
@@ -35,7 +49,8 @@ public class ProcessTrackWorkflow(
                 businessId = request.businessId,
             ),
         )
-        return PushTrackResponse(
+
+        context.output = PushTrackResponse(
             transactionId = UUID.randomUUID().toString(),
         )
     }

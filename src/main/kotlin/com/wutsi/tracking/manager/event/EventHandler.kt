@@ -8,13 +8,14 @@ import com.wutsi.platform.core.stream.Event
 import com.wutsi.tracking.manager.dto.PushTrackRequest
 import com.wutsi.tracking.manager.workflow.ProcessTrackWorkflow
 import com.wutsi.workflow.WorkflowContext
+import com.wutsi.workflow.engine.WorkflowEngine
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Service
 
 @Service
 class EventHandler(
     private val objectMapper: ObjectMapper,
-    private val workflow: ProcessTrackWorkflow,
+    private val workflowEngine: WorkflowEngine,
     private val logger: KVLogger,
 ) {
     @EventListener
@@ -39,25 +40,29 @@ class EventHandler(
         logger.add("payload_business_id", payload.businessId)
         logger.add("payload_url", payload.url)
 
-        val request = PushTrackRequest(
-            time = payload.time,
-            event = payload.event,
-            referrer = payload.referrer,
-            correlationId = payload.correlationId,
-            merchantId = payload.merchantId,
-            accountId = payload.accountId,
-            deviceId = payload.deviceId,
-            productId = payload.productId,
-            lat = payload.lat,
-            long = payload.long,
-            value = payload.value,
-            revenue = payload.revenue,
-            url = payload.url,
-            page = payload.page,
-            ua = payload.ua,
-            ip = payload.ip,
-            businessId = payload.businessId,
+        workflowEngine.execute(
+            ProcessTrackWorkflow.ID,
+            WorkflowContext(
+                input = PushTrackRequest(
+                    time = payload.time,
+                    event = payload.event,
+                    referrer = payload.referrer,
+                    correlationId = payload.correlationId,
+                    merchantId = payload.merchantId,
+                    accountId = payload.accountId,
+                    deviceId = payload.deviceId,
+                    productId = payload.productId,
+                    lat = payload.lat,
+                    long = payload.long,
+                    value = payload.value,
+                    revenue = payload.revenue,
+                    url = payload.url,
+                    page = payload.page,
+                    ua = payload.ua,
+                    ip = payload.ip,
+                    businessId = payload.businessId,
+                ),
+            ),
         )
-        workflow.execute(request, WorkflowContext())
     }
 }

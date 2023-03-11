@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service
 
 @Service
 public class PushDelegate(private val workflow: ProcessTrackWorkflow) {
-    public fun invoke(request: PushTrackRequest): PushTrackResponse =
-        workflow.execute(request, WorkflowContext())
+    public fun invoke(request: PushTrackRequest): PushTrackResponse {
+        val context = WorkflowContext(input = request)
+        workflow.execute(context)
+
+        return context.output as PushTrackResponse
+    }
 }
